@@ -2,39 +2,29 @@
 
 namespace App\Entity;
 
-use App\Repository\PersonnageRepository;
+use App\Repository\ModeDeJeuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: PersonnageRepository::class)]
-class Personnage
+#[ORM\Entity(repositoryClass: ModeDeJeuRepository::class)]
+class ModeDeJeu
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups('personnage:read')]
+    #[Groups(['build:read', 'personnage:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('personnage:read')]
+    #[Groups(['build:read', 'personnage:read'])]
     private ?string $nom = null;
-
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups('personnage:read')]
-    private ?string $description = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Groups('personnage:read')]
-    private ?string $image = null;
 
     /**
      * @var Collection<int, Build>
      */
-    #[ORM\OneToMany(targetEntity: Build::class, mappedBy: 'personnage')]
-    #[Groups('personnage:read')]
+    #[ORM\OneToMany(targetEntity: Build::class, mappedBy: 'modeDeJeu')]
     private Collection $builds;
 
     public function __construct()
@@ -59,30 +49,6 @@ class Personnage
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): static
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(?string $image): static
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Build>
      */
@@ -95,7 +61,7 @@ class Personnage
     {
         if (!$this->builds->contains($build)) {
             $this->builds->add($build);
-            $build->setPersonnage($this);
+            $build->setModeDeJeu($this);
         }
 
         return $this;
@@ -105,8 +71,8 @@ class Personnage
     {
         if ($this->builds->removeElement($build)) {
             // set the owning side to null (unless already changed)
-            if ($build->getPersonnage() === $this) {
-                $build->setPersonnage(null);
+            if ($build->getModeDeJeu() === $this) {
+                $build->setModeDeJeu(null);
             }
         }
 
