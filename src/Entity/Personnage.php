@@ -104,7 +104,6 @@ class Personnage
     public function removeBuild(Build $build): static
     {
         if ($this->builds->removeElement($build)) {
-            // set the owning side to null (unless already changed)
             if ($build->getPersonnage() === $this) {
                 $build->setPersonnage(null);
             }

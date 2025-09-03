@@ -12,20 +12,20 @@ class Build
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['build:read', 'personnage:read'])]
+    #[Groups(['build:read', 'personnage:read', 'modeDeJeu:read'])] // Ajoutez le nouveau groupe
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['build:read', 'personnage:read'])]
+    #[Groups(['build:read', 'personnage:read', 'modeDeJeu:read'])] // Ajoutez le nouveau groupe
     private ?string $titre = null;
 
     #[ORM\ManyToOne(inversedBy: 'builds')]
+    #[Groups(['modeDeJeu:read'])] // Ajoutez le nouveau groupe
     private ?Personnage $personnage = null;
 
     #[ORM\ManyToOne(inversedBy: 'builds')]
     #[Groups(['build:read', 'personnage:read'])]
     private ?ModeDeJeu $modeDeJeu = null;
-
     public function getId(): ?int
     {
         return $this->id;

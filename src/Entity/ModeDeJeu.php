@@ -14,18 +14,19 @@ class ModeDeJeu
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['build:read', 'personnage:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['build:read', 'personnage:read'])]
+    #[Groups('modeDeJeu:read')]
     private ?string $nom = null;
 
     /**
-     * @var Collection<int, Build>
+    * @var Collection<int, Build>
      */
     #[ORM\OneToMany(targetEntity: Build::class, mappedBy: 'modeDeJeu')]
+    #[Groups('modeDeJeu:read')]
     private Collection $builds;
+
 
     public function __construct()
     {
@@ -70,7 +71,6 @@ class ModeDeJeu
     public function removeBuild(Build $build): static
     {
         if ($this->builds->removeElement($build)) {
-            // set the owning side to null (unless already changed)
             if ($build->getModeDeJeu() === $this) {
                 $build->setModeDeJeu(null);
             }
