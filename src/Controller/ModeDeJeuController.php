@@ -23,7 +23,7 @@ class ModeDeJeuController extends AbstractController
     #[Route('/api/modes-de-jeu/{id}', name: 'app_modes_de_jeu_show', methods: ['GET'])]
     public function show(ModeDeJeu $modeDeJeu, SerializerInterface $serializer): JsonResponse
     {
-        $jsonContent = $serializer->serialize($modeDeJeu, 'json', ['groups' => 'modeDeJeu:read']);
+        $jsonContent = $serializer->serialize($modeDeJeu, 'json', ['groups' => ['modeDeJeu:read', 'modeDeJeu:read:details']]);
 
         return new JsonResponse($jsonContent, 200, [], true);
     }

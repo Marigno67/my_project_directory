@@ -15,19 +15,19 @@ class Personnage
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups('personnage:read')]
+    #[Groups(['personnage:read', 'modeDeJeu:read:details'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('personnage:read')]
+    #[Groups(['personnage:read', 'modeDeJeu:read:details'])]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups('personnage:read')]
+    #[Groups(['personnage:read', 'modeDeJeu:read:details'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups('personnage:read')]
+    #[Groups(['personnage:read', 'modeDeJeu:read:details'])]
     private ?string $image = null;
 
     /**

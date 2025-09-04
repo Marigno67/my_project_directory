@@ -2,30 +2,33 @@
 
 namespace App\Entity;
 
-use App\Repository\ModeDeJeuRepository;
+use App\Repository\EquipementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: ModeDeJeuRepository::class)]
-class ModeDeJeu
+#[ORM\Entity(repositoryClass: EquipementRepository::class)]
+class Equipement
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['modeDeJeu:read', 'modeDeJeu:read:details'])]
+    #[Groups(['equipement:read', 'build:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['modeDeJeu:read', 'modeDeJeu:read:details'])]
+    #[Groups(['equipement:read', 'build:read'])]
     private ?string $nom = null;
+
+    #[ORM\Column(length: 255)]
+    #[Groups(['equipement:read', 'build:read'])]
+    private ?string $emplacement = null;
 
     /**
      * @var Collection<int, Build>
      */
-    #[ORM\OneToMany(targetEntity: Build::class, mappedBy: 'modeDeJeu')]
-    #[Groups(['modeDeJeu:read:details'])]
+    #[ORM\ManyToMany(targetEntity: Build::class, inversedBy: 'equipements')]
     private Collection $builds;
 
     public function __construct()
@@ -50,6 +53,18 @@ class ModeDeJeu
         return $this;
     }
 
+    public function getEmplacement(): ?string
+    {
+        return $this->emplacement;
+    }
+
+    public function setEmplacement(string $emplacement): static
+    {
+        $this->emplacement = $emplacement;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Build>
      */
@@ -62,7 +77,6 @@ class ModeDeJeu
     {
         if (!$this->builds->contains($build)) {
             $this->builds->add($build);
-            $build->setModeDeJeu($this);
         }
 
         return $this;
@@ -70,15 +84,11 @@ class ModeDeJeu
 
     public function removeBuild(Build $build): static
     {
-        if ($this->builds->removeElement($build)) {
-            if ($build->getModeDeJeu() === $this) {
-                $build->setModeDeJeu(null);
-            }
-        }
+        $this->builds->removeElement($build);
 
         return $this;
     }
-    
+
     public function __toString(): string
     {
         return $this->nom;
