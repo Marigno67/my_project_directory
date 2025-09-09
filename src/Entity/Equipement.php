@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: EquipementRepository::class)]
 class Equipement
@@ -24,12 +25,21 @@ class Equipement
     #[ORM\Column(length: 255)]
     #[Groups(['equipement:read', 'build:read'])]
     private ?string $emplacement = null;
+    
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['equipement:read', 'build:read'])]
+    private ?string $image = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['equipement:read', 'build:read'])]
+    private ?string $description = null;
 
     /**
      * @var Collection<int, Build>
      */
     #[ORM\ManyToMany(targetEntity: Build::class, inversedBy: 'equipements')]
     private Collection $builds;
+
 
     public function __construct()
     {
@@ -85,6 +95,29 @@ class Equipement
     public function removeBuild(Build $build): static
     {
         $this->builds->removeElement($build);
+
+        return $this;
+    }
+        public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }

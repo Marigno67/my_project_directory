@@ -22,7 +22,6 @@ class Build
     private ?string $titre = null;
 
     #[ORM\ManyToOne(inversedBy: 'builds')]
-    #[Groups(['build:read', 'modeDeJeu:read:details'])]
     private ?Personnage $personnage = null;
 
     #[ORM\ManyToOne(inversedBy: 'builds')]
@@ -33,7 +32,7 @@ class Build
      * @var Collection<int, Equipement>
      */
     #[ORM\ManyToMany(targetEntity: Equipement::class, inversedBy: 'builds')]
-    #[Groups(['build:read', 'personnage:read'])]
+    #[Groups(['build:read', 'personnage:read', 'modeDeJeu:read:details'])]
     private Collection $equipements;
 
     public function __construct()
