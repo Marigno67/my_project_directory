@@ -14,18 +14,18 @@ class ModeDeJeu
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['modeDeJeu:read', 'build:read', 'personnage:read'])]
+    #[Groups(['modeDeJeu:read', 'personnage:read:details', 'modeDeJeu:read:details'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['modeDeJeu:read', 'build:read', 'personnage:read'])]
+    #[Groups(['modeDeJeu:read', 'personnage:read:details', 'modeDeJeu:read:details'])]
     private ?string $nom = null;
 
     /**
      * @var Collection<int, Build>
      */
     #[ORM\OneToMany(targetEntity: Build::class, mappedBy: 'modeDeJeu')]
-    #[Groups(['modeDeJeu:read'])]
+    #[Groups(['modeDeJeu:read:details'])]
     private Collection $builds;
 
     public function __construct()

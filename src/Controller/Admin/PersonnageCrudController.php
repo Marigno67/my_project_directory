@@ -5,9 +5,9 @@ namespace App\Controller\Admin;
 use App\Entity\Personnage;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField; // Ajoutez cette ligne
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
 class PersonnageCrudController extends AbstractCrudController
 {
@@ -18,9 +18,9 @@ class PersonnageCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield IdField::new('id')->hideOnForm(); // Cache le champ ID dans le formulaire
+        yield IdField::new('id')->hideOnForm();
         yield TextField::new('nom');
-        yield TextEditorField::new('description'); // Utilisez TextEditorField pour une description plus longue
+        yield TextEditorField::new('description');
 
         yield ImageField::new('image')
             ->setBasePath('/uploads/images')

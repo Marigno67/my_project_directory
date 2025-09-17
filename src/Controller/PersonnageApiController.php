@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class PersonnageController extends AbstractController
+class PersonnageApiController extends AbstractController
 {
     #[Route('/api/personnages', name: 'app_personnage_list', methods: ['GET'])]
     public function list(PersonnageRepository $personnageRepository, SerializerInterface $serializer): JsonResponse
@@ -23,7 +23,7 @@ class PersonnageController extends AbstractController
     #[Route('/api/personnages/{id}', name: 'app_personnage_show', methods: ['GET'])]
     public function show(Personnage $personnage, SerializerInterface $serializer): JsonResponse
     {
-        $jsonContent = $serializer->serialize($personnage, 'json', ['groups' => 'personnage:read']);
+        $jsonContent = $serializer->serialize($personnage, 'json', ['groups' => ['personnage:read', 'personnage:read:details']]);
 
         return new JsonResponse($jsonContent, 200, [], true);
     }

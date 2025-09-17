@@ -1,0 +1,13 @@
+###> composer ###
+/vendor
+###< composer ###
+
+###> symfony/webpack-encore-bundle ###
+/public/build
+###< symfony/webpack-encore-bundle ###
+
+###> symfony/flex ###
+.env.local
+.env.local.php
+.env.*.php
+###< symfony/flex ###

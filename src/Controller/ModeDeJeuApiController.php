@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class ModeDeJeuController extends AbstractController
+class ModeDeJeuApiController extends AbstractController
 {
     #[Route('/api/modes-de-jeu', name: 'app_modes_de_jeu_list', methods: ['GET'])]
     public function list(ModeDeJeuRepository $modeDeJeuRepository, SerializerInterface $serializer): JsonResponse

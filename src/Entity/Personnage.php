@@ -15,26 +15,26 @@ class Personnage
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['personnage:read', 'modeDeJeu:read:details'])]
+    #[Groups(['personnage:read', 'modeDeJeu:read:details', 'personnage:read:details'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['personnage:read', 'modeDeJeu:read:details'])]
+    #[Groups(['personnage:read', 'modeDeJeu:read:details', 'personnage:read:details'])]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['personnage:read', 'modeDeJeu:read:details'])]
+    #[Groups(['personnage:read', 'modeDeJeu:read:details', 'personnage:read:details'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['personnage:read', 'modeDeJeu:read:details'])]
+    #[Groups(['personnage:read', 'modeDeJeu:read:details', 'personnage:read:details'])]
     private ?string $image = null;
 
     /**
      * @var Collection<int, Build>
      */
     #[ORM\OneToMany(targetEntity: Build::class, mappedBy: 'personnage')]
-    #[Groups('personnage:read')]
+    #[Groups(['personnage:read:details'])]
     private Collection $builds;
 
     public function __construct()

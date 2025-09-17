@@ -15,31 +15,30 @@ class Equipement
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['equipement:read', 'build:read'])]
+    #[Groups(['equipement:read', 'build:read', 'personnage:read:details', 'modeDeJeu:read:details'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['equipement:read', 'build:read'])]
+    #[Groups(['equipement:read', 'build:read', 'personnage:read:details', 'modeDeJeu:read:details'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['equipement:read', 'build:read'])]
+    #[Groups(['equipement:read', 'build:read', 'personnage:read:details', 'modeDeJeu:read:details'])]
     private ?string $emplacement = null;
-    
+
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['equipement:read', 'build:read'])]
+    #[Groups(['equipement:read', 'build:read', 'personnage:read:details', 'modeDeJeu:read:details'])]
     private ?string $image = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['equipement:read', 'build:read'])]
+    #[Groups(['equipement:read', 'build:read', 'personnage:read:details', 'modeDeJeu:read:details'])]
     private ?string $description = null;
 
     /**
      * @var Collection<int, Build>
      */
-    #[ORM\ManyToMany(targetEntity: Build::class, inversedBy: 'equipements')]
+    #[ORM\ManyToMany(targetEntity: Build::class, mappedBy: 'equipements')]
     private Collection $builds;
-
 
     public function __construct()
     {
@@ -98,7 +97,8 @@ class Equipement
 
         return $this;
     }
-        public function getImage(): ?string
+
+    public function getImage(): ?string
     {
         return $this->image;
     }

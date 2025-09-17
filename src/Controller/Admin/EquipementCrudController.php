@@ -23,7 +23,7 @@ class EquipementCrudController extends AbstractCrudController
         yield IdField::new('id')->hideOnForm();
         yield TextField::new('nom');
         yield TextField::new('emplacement');
-        yield TextEditorField::new('description');
+        yield TextField::new('description');
         yield ImageField::new('image')
             ->setBasePath('/uploads/images')
             ->setUploadDir('public/uploads/images')

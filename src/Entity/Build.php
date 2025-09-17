@@ -14,25 +14,26 @@ class Build
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['build:read', 'personnage:read', 'modeDeJeu:read:details'])]
+    #[Groups(['build:read', 'personnage:read:details', 'modeDeJeu:read:details'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['build:read', 'personnage:read', 'modeDeJeu:read:details'])]
+    #[Groups(['build:read', 'personnage:read:details', 'modeDeJeu:read:details'])]
     private ?string $titre = null;
 
+    // Cette ligne a été modifiée : le groupe a été retiré pour éviter la boucle.
     #[ORM\ManyToOne(inversedBy: 'builds')]
     private ?Personnage $personnage = null;
 
     #[ORM\ManyToOne(inversedBy: 'builds')]
-    #[Groups(['build:read', 'personnage:read'])]
+    #[Groups(['personnage:read:details', 'modeDeJeu:read:details'])]
     private ?ModeDeJeu $modeDeJeu = null;
 
     /**
      * @var Collection<int, Equipement>
      */
     #[ORM\ManyToMany(targetEntity: Equipement::class, inversedBy: 'builds')]
-    #[Groups(['build:read', 'personnage:read', 'modeDeJeu:read:details'])]
+    #[Groups(['build:read', 'personnage:read:details', 'modeDeJeu:read:details'])]
     private Collection $equipements;
 
     public function __construct()
