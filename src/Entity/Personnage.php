@@ -37,9 +37,18 @@ class Personnage
     #[Groups(['personnage:read:details'])]
     private Collection $builds;
 
+    /**
+     * @var Collection<int, StatistiquePersonnage>
+     */
+    // MODIFIÉ : La relation est maintenant ManyToMany et pointe vers 'personnages' sur l'autre entité
+    #[ORM\ManyToMany(targetEntity: StatistiquePersonnage::class, mappedBy: 'personnages')]
+    #[Groups(['personnage:read:details'])]
+    private Collection $statistiques;
+
     public function __construct()
     {
         $this->builds = new ArrayCollection();
+        $this->statistiques = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -101,6 +110,8 @@ class Personnage
         return $this;
     }
 
+
+
     public function removeBuild(Build $build): static
     {
         if ($this->builds->removeElement($build)) {
@@ -115,5 +126,32 @@ class Personnage
     public function __toString(): string
     {
         return $this->nom;
+    }
+
+    /**
+     * @return Collection<int, StatistiquePersonnage>
+     */
+    public function getStatistiques(): Collection
+    {
+        return $this->statistiques;
+    }
+
+    public function addStatistique(StatistiquePersonnage $statistique): static
+    {
+        if (!$this->statistiques->contains($statistique)) {
+            $this->statistiques->add($statistique);
+            $statistique->addPersonnage($this); // Assurez-vous que l'autre côté est aussi mis à jour
+        }
+
+        return $this;
+    }
+
+    public function removeStatistique(StatistiquePersonnage $statistique): static
+    {
+        if ($this->statistiques->removeElement($statistique)) {
+            $statistique->removePersonnage($this); // Assurez-vous que l'autre côté est aussi mis à jour
+        }
+
+        return $this;
     }
 }
