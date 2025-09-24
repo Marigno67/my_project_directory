@@ -25,10 +25,6 @@ class SetArtefact
     #[Groups(['setArtefact:read'])]
     private ?string $sousTitre = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['setArtefact:read'])]
-    private ?string $image = null;
-
     /**
      * @var Collection<int, BonusSet>
      */
@@ -36,9 +32,17 @@ class SetArtefact
     #[Groups(['setArtefact:read'])]
     private Collection $bonus;
 
+    /**
+     * @var Collection<int, ImageSet>
+     */
+    #[ORM\OneToMany(targetEntity: ImageSet::class, mappedBy: 'setArtefact', orphanRemoval: true, cascade: ['persist'])]
+    #[Groups(['setArtefact:read'])]
+    private Collection $images;
+
     public function __construct()
     {
         $this->bonus = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,7 +55,7 @@ class SetArtefact
         return $this->nom;
     }
 
-    public function setNom(?string $nom): static
+    public function setNom(string $nom): static
     {
         $this->nom = $nom;
 
@@ -70,18 +74,6 @@ class SetArtefact
         return $this;
     }
 
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(?string $image): static
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, BonusSet>
      */
@@ -90,25 +82,60 @@ class SetArtefact
         return $this->bonus;
     }
 
-    public function addBonu(BonusSet $bonu): static
+    public function addBonus(BonusSet $bonus): static
     {
-        if (!$this->bonus->contains($bonu)) {
-            $this->bonus->add($bonu);
-            $bonu->setSetArtefact($this);
+        if (!$this->bonus->contains($bonus)) {
+            $this->bonus->add($bonus);
+            $bonus->setSetArtefact($this);
         }
 
         return $this;
     }
 
-    public function removeBonu(BonusSet $bonu): static
+    public function removeBonus(BonusSet $bonus): static
     {
-        if ($this->bonus->removeElement($bonu)) {
+        if ($this->bonus->removeElement($bonus)) {
             // set the owning side to null (unless already changed)
-            if ($bonu->getSetArtefact() === $this) {
-                $bonu->setSetArtefact(null);
+            if ($bonus->getSetArtefact() === $this) {
+                $bonus->setSetArtefact(null);
             }
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, ImageSet>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(ImageSet $image): static
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setSetArtefact($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(ImageSet $image): static
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getSetArtefact() === $this) {
+                $image->setSetArtefact(null);
+            }
+        }
+
+        return $this;
+    }
+    
+    public function __toString(): string
+    {
+        return $this->nom ?? '';
     }
 }
