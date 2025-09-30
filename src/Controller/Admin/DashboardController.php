@@ -10,6 +10,7 @@ use App\Entity\SetArtefact;
 use App\Entity\BonusSet;
 use App\Entity\StatistiquePersonnage;
 use App\Entity\Ombre;
+use App\Entity\Element;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -43,5 +44,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Ombres', 'fas fa-ghost', Ombre::class);
         yield MenuItem::linkToCrud('Sets d\'Artefacts', 'fas fa-layer-group', SetArtefact::class);
         yield MenuItem::linkToCrud('Bonus de Sets', 'fas fa-star', BonusSet::class);
+        yield MenuItem::linkToCrud('Éléments', 'fas fa-fire', Element::class);
     }
 }

@@ -40,10 +40,13 @@ class Personnage
     /**
      * @var Collection<int, StatistiquePersonnage>
      */
-    // MODIFIÉ : La relation est maintenant ManyToMany et pointe vers 'personnages' sur l'autre entité
     #[ORM\ManyToMany(targetEntity: StatistiquePersonnage::class, mappedBy: 'personnages')]
     #[Groups(['personnage:read:details'])]
     private Collection $statistiques;
+
+    #[ORM\ManyToOne(inversedBy: 'personnages')]
+    #[Groups(['personnage:read', 'personnage:read:details'])] // <-- MODIFICATION ICI
+    private ?Element $element = null;
 
     public function __construct()
     {
@@ -51,6 +54,8 @@ class Personnage
         $this->statistiques = new ArrayCollection();
     }
 
+    // ... (tout le reste de vos getters et setters)
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -64,7 +69,6 @@ class Personnage
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -76,7 +80,6 @@ class Personnage
     public function setDescription(?string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -88,7 +91,6 @@ class Personnage
     public function setImage(?string $image): static
     {
         $this->image = $image;
-
         return $this;
     }
 
@@ -106,26 +108,18 @@ class Personnage
             $this->builds->add($build);
             $build->setPersonnage($this);
         }
-
         return $this;
     }
-
-
 
     public function removeBuild(Build $build): static
     {
         if ($this->builds->removeElement($build)) {
+            // set the owning side to null (unless already changed)
             if ($build->getPersonnage() === $this) {
                 $build->setPersonnage(null);
             }
         }
-
         return $this;
-    }
-    
-    public function __toString(): string
-    {
-        return $this->nom;
     }
 
     /**
@@ -140,18 +134,32 @@ class Personnage
     {
         if (!$this->statistiques->contains($statistique)) {
             $this->statistiques->add($statistique);
-            $statistique->addPersonnage($this); // Assurez-vous que l'autre côté est aussi mis à jour
+            $statistique->addPersonnage($this);
         }
-
         return $this;
     }
 
     public function removeStatistique(StatistiquePersonnage $statistique): static
     {
         if ($this->statistiques->removeElement($statistique)) {
-            $statistique->removePersonnage($this); // Assurez-vous que l'autre côté est aussi mis à jour
+            $statistique->removePersonnage($this);
         }
-
         return $this;
+    }
+
+    public function getElement(): ?Element
+    {
+        return $this->element;
+    }
+
+    public function setElement(?Element $element): static
+    {
+        $this->element = $element;
+        return $this;
+    }
+    
+    public function __toString(): string
+    {
+        return $this->nom ?? '';
     }
 }

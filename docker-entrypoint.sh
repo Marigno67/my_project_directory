@@ -1,10 +1,11 @@
 #!/bin/sh
 set -e
 
-# Applique les permissions sur le dossier var (qui vient de votre PC via le volume)
-setfacl -R -m u:www-data:rwX var
-setfacl -dR -m u:www-data:rwX var
+# Crée les dossiers nécessaires s'ils n'existent pas
+mkdir -p var/cache var/log public/uploads
 
-# Exécute la commande qui a été passée au conteneur
-# (dans notre cas, ce sera "symfony server:start...")
+# Change le propriétaire des dossiers pour l'utilisateur du serveur web (www-data)
+chown -R www-data:www-data var public/uploads
+
+# Exécute la commande qui a été passée au conteneur (symfony server:start...)
 exec "$@"

@@ -138,4 +138,26 @@ class SetArtefact
     {
         return $this->nom ?? '';
     }
+
+    public function addBonu(BonusSet $bonu): static
+    {
+        if (!$this->bonus->contains($bonu)) {
+            $this->bonus->add($bonu);
+            $bonu->setSetArtefact($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBonu(BonusSet $bonu): static
+    {
+        if ($this->bonus->removeElement($bonu)) {
+            // set the owning side to null (unless already changed)
+            if ($bonu->getSetArtefact() === $this) {
+                $bonu->setSetArtefact(null);
+            }
+        }
+
+        return $this;
+    }
 }
