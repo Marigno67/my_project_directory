@@ -1,11 +1,12 @@
 #!/bin/sh
 set -e
 
-# Crée les dossiers nécessaires s'ils n'existent pas
-mkdir -p var/cache var/log public/uploads
+echo "Entrypoint: Running migrations non-interactively..."
+# L'option --no-interaction empêche le script de se bloquer
+symfony console doctrine:migrations:migrate --no-interaction
 
-# Change le propriétaire des dossiers pour l'utilisateur du serveur web (www-data)
+echo "Entrypoint: Setting file permissions..."
 chown -R www-data:www-data var public/uploads
 
-# Exécute la commande qui a été passée au conteneur (symfony server:start...)
-exec "$@"
+echo "Entrypoint: Handing over to www-data to start php-fpm..."
+exec gosu www-data "$@"
