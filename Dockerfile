@@ -1,6 +1,6 @@
 FROM php:8.2-fpm
 
-# Installer les dépendances système, y compris acl
+# Installer les dépendances système, y compris acl et netcat
 RUN apt-get update && apt-get install -y \
     libzip-dev \
     libicu-dev \
@@ -9,10 +9,23 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     acl \
+    netcat-traditional \
     && rm -rf /var/lib/apt/lists/*
 
 # Installer les extensions PHP
 RUN docker-php-ext-install pdo_mysql opcache intl gd zip
+
+# Configuration OPcache optimisée pour le développement
+RUN echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/opcache.ini && \
+    echo "opcache.memory_consumption=256" >> /usr/local/etc/php/conf.d/opcache.ini && \
+    echo "opcache.max_accelerated_files=20000" >> /usr/local/etc/php/conf.d/opcache.ini && \
+    echo "opcache.validate_timestamps=1" >> /usr/local/etc/php/conf.d/opcache.ini && \
+    echo "opcache.revalidate_freq=0" >> /usr/local/etc/php/conf.d/opcache.ini && \
+    echo "opcache.interned_strings_buffer=16" >> /usr/local/etc/php/conf.d/opcache.ini
+
+# Augmenter la limite de mémoire PHP
+RUN echo "memory_limit=512M" >> /usr/local/etc/php/conf.d/memory.ini && \
+    echo "max_execution_time=60" >> /usr/local/etc/php/conf.d/memory.ini
 
 # Installer le CLI SYMFONY
 RUN curl -sS https://get.symfony.com/cli/installer | bash && \
@@ -24,7 +37,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/symfony
 
 COPY composer.json composer.lock ./
-RUN composer install --optimize-autoloader --no-scripts
+RUN composer install --optimize-autoloader --no-scripts --classmap-authoritative
 
 COPY . .
 
