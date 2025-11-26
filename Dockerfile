@@ -34,19 +34,26 @@ RUN curl -sS https://get.symfony.com/cli/installer | bash && \
 # Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Définir le répertoire de travail
 WORKDIR /var/www/symfony
 
+# Copier les fichiers de dépendances et les installer
 COPY composer.json composer.lock ./
 RUN composer install --optimize-autoloader --no-scripts --classmap-authoritative
 
+# Copier le reste du code de l'application
 COPY . .
 
-# Copier notre script d'entrée et le rendre exécutable
+# Copier le script d'entrée, le convertir et le rendre exécutable
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN dos2unix /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Définir notre script comme point d'entrée
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-# La commande par défaut sera celle de docker-compose.yaml
+# La commande par défaut sera "php-fpm"
+CMD ["php-fpm"]
+
+# Exposer le port pour le service PHP-FPM
 EXPOSE 9000
