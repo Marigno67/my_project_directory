@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     acl \
     netcat-traditional \
+    dos2unix \
     && rm -rf /var/lib/apt/lists/*
 
 # Installer les extensions PHP
@@ -46,7 +47,7 @@ COPY . .
 
 # Copier le script d'entrée, le convertir et le rendre exécutable
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN dos2unix /usr/local/bin/docker-entrypoint.sh
+RUN sed -i 's/\r$//' /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Définir notre script comme point d'entrée

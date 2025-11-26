@@ -1,7 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
-<<<<<<< HEAD
 echo "🚀 Démarrage du conteneur Symfony..."
 
 # 1. Crée les dossiers nécessaires
@@ -56,14 +55,3 @@ echo "✨ Conteneur prêt !"
 echo ""
 
 exec "$@"
-=======
-echo "Entrypoint: Running migrations non-interactively..."
-# L'option --no-interaction empêche le script de se bloquer
-symfony console doctrine:migrations:migrate --no-interaction
-
-echo "Entrypoint: Setting file permissions..."
-chown -R www-data:www-data var public/uploads
-
-echo "Entrypoint: Handing over to www-data to start php-fpm..."
-exec gosu www-data "$@"
->>>>>>> 56aa453fb52d4ccf25e7f6c3e1c31f39d0b0cad2
