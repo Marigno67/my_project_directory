@@ -20,7 +20,6 @@ class SetArtefactCrudController extends AbstractCrudController
         return [
             TextField::new('nom'),
             TextField::new('sousTitre'),
-            // CE CHAMP VA REMPLACER L'ANCIENNE LOGIQUE
             CollectionField::new('images')
                 ->setEntryType(ImageSetType::class) // Utilise notre mini-formulaire
                 ->setFormTypeOption('by_reference', false) // Important pour la sauvegarde

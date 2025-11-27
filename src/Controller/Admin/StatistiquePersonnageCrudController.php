@@ -21,7 +21,6 @@ class StatistiquePersonnageCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             TextField::new('nom'),
             TextField::new('valeur'),
-            // Modifiez ce champ pour autoriser la sélection multiple
             AssociationField::new('personnages')
                 ->setFormTypeOptions([
                     'multiple' => true,
