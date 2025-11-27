@@ -1,0 +1,4 @@
+# Production
+APP_ENV=prod
+APP_DEBUG=0
+DATABASE_URL="mysql://ton_user_infomaniak:ton_mdp@localhost:3306/ton_nom_bdd?serverVersion=8.0.32&charset=utf8mb4"
