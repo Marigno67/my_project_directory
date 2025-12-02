@@ -14,15 +14,15 @@ class Element
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['personnage:read:details', 'element:read'])]
+    #[Groups(['personnage:read', 'personnage:read:details', 'element:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['personnage:read:details', 'element:read'])]
+    #[Groups(['personnage:read', 'personnage:read:details', 'element:read'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['personnage:read:details', 'element:read'])]
+    #[Groups(['personnage:read', 'personnage:read:details', 'element:read'])]
     private ?string $icone = null;
 
     /**
