@@ -16,6 +16,20 @@ class PersonnageRepository extends ServiceEntityRepository
         parent::__construct($registry, Personnage::class);
     }
 
+    /**
+     * Trouve tous les personnages avec leurs éléments chargés
+     * @return Personnage[] Returns an array of Personnage objects
+     */
+    public function findAllWithElement(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.element', 'e')
+            ->addSelect('e')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Personnage[] Returns an array of Personnage objects
 //     */

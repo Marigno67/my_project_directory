@@ -12,12 +12,29 @@ use Symfony\Component\Serializer\SerializerInterface;
 class PersonnageApiController extends AbstractController
 {
     #[Route('/api/personnages', name: 'app_personnage_list', methods: ['GET'])]
-    public function list(PersonnageRepository $personnageRepository, SerializerInterface $serializer): JsonResponse
+    public function list(PersonnageRepository $personnageRepository): JsonResponse
     {
-        $personnages = $personnageRepository->findAll();
-        $jsonContent = $serializer->serialize($personnages, 'json', ['groups' => 'personnage:read']);
+        // Utilise une requête avec JOIN explicite pour charger les éléments
+        $personnages = $personnageRepository->findAllWithElement();
 
-        return new JsonResponse($jsonContent, 200, [], true);
+        // Transformation manuelle en array pour contourner le problème de sérialisation
+        $data = [];
+        foreach ($personnages as $personnage) {
+            $element = $personnage->getElement();
+            $data[] = [
+                'id' => $personnage->getId(),
+                'nom' => $personnage->getNom(),
+                'description' => $personnage->getDescription(),
+                'image' => $personnage->getImage(),
+                'element' => $element ? [
+                    'id' => $element->getId(),
+                    'nom' => $element->getNom(),
+                    'icone' => $element->getIcone()
+                ] : null
+            ];
+        }
+
+        return new JsonResponse($data);
     }
 
     #[Route('/api/personnages/{id}', name: 'app_personnage_show', methods: ['GET'])]
