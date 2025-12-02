@@ -44,7 +44,7 @@ class Personnage
     #[Groups(['personnage:read:details'])]
     private Collection $statistiques;
 
-    #[ORM\ManyToOne(inversedBy: 'personnages')]
+    #[ORM\ManyToOne(inversedBy: 'personnages', fetch: 'EAGER')]
     #[Groups(['personnage:read', 'personnage:read:details'])] // <-- MODIFICATION ICI
     private ?Element $element = null;
 
