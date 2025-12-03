@@ -23,7 +23,7 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        return parent::index();
+        return $this->redirect($this->generateUrl('admin') . '?crudAction=index&crudControllerFqcn=' . urlencode('App\\Controller\\Admin\\PersonnageCrudController'));
     }
 
     public function configureDashboard(): Dashboard
