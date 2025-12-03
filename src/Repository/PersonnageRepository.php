@@ -17,7 +17,7 @@ class PersonnageRepository extends ServiceEntityRepository
     }
 
     /**
-     * Trouve tous les personnages avec leurs éléments chargés
+     * Trouve tous les personnages avec leurs éléments et rôles chargés
      * @return Personnage[] Returns an array of Personnage objects
      */
     public function findAllWithElement(): array
@@ -25,6 +25,8 @@ class PersonnageRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->leftJoin('p.element', 'e')
             ->addSelect('e')
+            ->leftJoin('p.role', 'r')
+            ->addSelect('r')
             ->getQuery()
             ->getResult()
         ;

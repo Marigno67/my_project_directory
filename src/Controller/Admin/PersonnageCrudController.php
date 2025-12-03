@@ -22,6 +22,7 @@ class PersonnageCrudController extends AbstractCrudController
         yield IdField::new('id')->hideOnForm();
         yield TextField::new('nom');
         yield AssociationField::new('element');
+        yield AssociationField::new('role');
         yield TextEditorField::new('description');
 
         yield ImageField::new('image')

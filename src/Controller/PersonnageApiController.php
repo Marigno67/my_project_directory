@@ -21,6 +21,7 @@ class PersonnageApiController extends AbstractController
         $data = [];
         foreach ($personnages as $personnage) {
             $element = $personnage->getElement();
+            $role = $personnage->getRole();
             $data[] = [
                 'id' => $personnage->getId(),
                 'nom' => $personnage->getNom(),
@@ -30,6 +31,11 @@ class PersonnageApiController extends AbstractController
                     'id' => $element->getId(),
                     'nom' => $element->getNom(),
                     'icone' => $element->getIcone()
+                ] : null,
+                'role' => $role ? [
+                    'id' => $role->getId(),
+                    'nom' => $role->getNom(),
+                    'icone' => $role->getIcone()
                 ] : null
             ];
         }

@@ -45,8 +45,12 @@ class Personnage
     private Collection $statistiques;
 
     #[ORM\ManyToOne(inversedBy: 'personnages', fetch: 'EAGER')]
-    #[Groups(['personnage:read', 'personnage:read:details'])] // <-- MODIFICATION ICI
+    #[Groups(['personnage:read', 'personnage:read:details'])]
     private ?Element $element = null;
+
+    #[ORM\ManyToOne(inversedBy: 'personnages', fetch: 'EAGER')]
+    #[Groups(['personnage:read', 'personnage:read:details'])]
+    private ?Role $role = null;
 
     public function __construct()
     {
@@ -157,7 +161,18 @@ class Personnage
         $this->element = $element;
         return $this;
     }
-    
+
+    public function getRole(): ?Role
+    {
+        return $this->role;
+    }
+
+    public function setRole(?Role $role): static
+    {
+        $this->role = $role;
+        return $this;
+    }
+
     public function __toString(): string
     {
         return $this->nom ?? '';
