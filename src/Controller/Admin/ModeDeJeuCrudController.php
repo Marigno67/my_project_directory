@@ -6,9 +6,9 @@ use App\Entity\ModeDeJeu;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use App\Controller\ModeDeJeuApiController;
 
 class ModeDeJeuCrudController extends AbstractCrudController
 {
@@ -26,6 +26,9 @@ class ModeDeJeuCrudController extends AbstractCrudController
     {
         yield IdField::new('id')->hideOnForm();
         yield TextField::new('nom');
-        yield AssociationField::new('builds');
+        yield TextareaField::new('description')
+            ->hideOnIndex() // Caché dans la liste (trop long)
+            ->setHelp('Description complète du mode de jeu (affichée sur le frontend)');
+        yield AssociationField::new('builds')->hideOnForm();
     }
 }

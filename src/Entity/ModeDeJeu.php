@@ -21,6 +21,10 @@ class ModeDeJeu
     #[Groups(['modeDeJeu:read', 'personnage:read:details', 'modeDeJeu:read:details'])]
     private ?string $nom = null;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups(['modeDeJeu:read', 'personnage:read:details', 'modeDeJeu:read:details'])]
+    private ?string $description = null;
+
     /**
      * @var Collection<int, Build>
      */
@@ -46,6 +50,18 @@ class ModeDeJeu
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }

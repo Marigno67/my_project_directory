@@ -12,6 +12,7 @@ use App\Entity\StatistiquePersonnage;
 use App\Entity\Ombre;
 use App\Entity\Element;
 use App\Entity\Role;
+use App\Entity\Arme;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -38,6 +39,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Contenu');
         yield MenuItem::linkToCrud('Personnages', 'fas fa-dragon', Personnage::class);
+        yield MenuItem::linkToCrud('Armes de Sung', 'fas fa-sword', Arme::class);
         yield MenuItem::linkToCrud('Modes de jeu', 'fas fa-gamepad', ModeDeJeu::class);
         yield MenuItem::linkToCrud('Builds', 'fas fa-hammer', Build::class);
         yield MenuItem::linkToCrud('Équipements', 'fas fa-shield-alt', Equipement::class);
