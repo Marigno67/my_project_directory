@@ -15,6 +15,7 @@ use App\Entity\Role;
 use App\Entity\Arme;
 use App\Entity\EnsembleNoyau;
 use App\Entity\Noyau;
+use App\Entity\PersonnageNoyau;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -47,6 +48,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Équipements', 'fas fa-shield-alt', Equipement::class);
         yield MenuItem::linkToCrud('Noyaux', 'fas fa-atom', Noyau::class);
         yield MenuItem::linkToCrud('Ensembles de Noyaux', 'fas fa-boxes', EnsembleNoyau::class);
+        yield MenuItem::linkToCrud('Noyaux des Personnages', 'fas fa-link', PersonnageNoyau::class);
         yield MenuItem::linkToCrud('Statistiques de Personnage', 'fas fa-chart-line', StatistiquePersonnage::class);
         yield MenuItem::linkToCrud('Ombres', 'fas fa-ghost', Ombre::class);
         yield MenuItem::linkToCrud('Sets d\'Artefacts', 'fas fa-layer-group', SetArtefact::class);

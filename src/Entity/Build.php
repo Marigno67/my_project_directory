@@ -36,17 +36,9 @@ class Build
     #[Groups(['build:read', 'personnage:read:details', 'modeDeJeu:read:details'])]
     private Collection $equipements;
 
-    /**
-     * @var Collection<int, BuildNoyau>
-     */
-    #[ORM\OneToMany(targetEntity: BuildNoyau::class, mappedBy: 'build', orphanRemoval: true)]
-    #[Groups(['build:read:details', 'personnage:read:details'])]
-    private Collection $buildNoyaux;
-
     public function __construct()
     {
         $this->equipements = new ArrayCollection();
-        $this->buildNoyaux = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -110,35 +102,6 @@ class Build
     public function removeEquipement(Equipement $equipement): static
     {
         $this->equipements->removeElement($equipement);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, BuildNoyau>
-     */
-    public function getBuildNoyaux(): Collection
-    {
-        return $this->buildNoyaux;
-    }
-
-    public function addBuildNoyau(BuildNoyau $buildNoyau): static
-    {
-        if (!$this->buildNoyaux->contains($buildNoyau)) {
-            $this->buildNoyaux->add($buildNoyau);
-            $buildNoyau->setBuild($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBuildNoyau(BuildNoyau $buildNoyau): static
-    {
-        if ($this->buildNoyaux->removeElement($buildNoyau)) {
-            if ($buildNoyau->getBuild() === $this) {
-                $buildNoyau->setBuild(null);
-            }
-        }
 
         return $this;
     }

@@ -2,30 +2,30 @@
 
 namespace App\Entity;
 
-use App\Repository\BuildNoyauRepository;
+use App\Repository\PersonnageNoyauRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: BuildNoyauRepository::class)]
-class BuildNoyau
+#[ORM\Entity(repositoryClass: PersonnageNoyauRepository::class)]
+class PersonnageNoyau
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['build:read:details'])]
+    #[Groups(['personnage:read:details'])]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'buildNoyaux')]
+    #[ORM\ManyToOne(targetEntity: Personnage::class, inversedBy: 'personnageNoyaux')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Build $build = null;
+    private ?Personnage $personnage = null;
 
-    #[ORM\ManyToOne(inversedBy: 'buildNoyaux')]
+    #[ORM\ManyToOne(targetEntity: Noyau::class, inversedBy: 'personnageNoyaux')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['build:read:details'])]
+    #[Groups(['personnage:read:details'])]
     private ?Noyau $noyau = null;
 
     #[ORM\Column]
-    #[Groups(['build:read:details'])]
+    #[Groups(['personnage:read:details'])]
     private ?int $priorite = null;
 
     public function getId(): ?int
@@ -33,14 +33,14 @@ class BuildNoyau
         return $this->id;
     }
 
-    public function getBuild(): ?Build
+    public function getPersonnage(): ?Personnage
     {
-        return $this->build;
+        return $this->personnage;
     }
 
-    public function setBuild(?Build $build): static
+    public function setPersonnage(?Personnage $personnage): static
     {
-        $this->build = $build;
+        $this->personnage = $personnage;
 
         return $this;
     }

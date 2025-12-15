@@ -52,10 +52,18 @@ class Personnage
     #[Groups(['personnage:read', 'personnage:read:details'])]
     private ?Role $role = null;
 
+    /**
+     * @var Collection<int, PersonnageNoyau>
+     */
+    #[ORM\OneToMany(targetEntity: PersonnageNoyau::class, mappedBy: 'personnage', orphanRemoval: true)]
+    #[Groups(['personnage:read:details'])]
+    private Collection $personnageNoyaux;
+
     public function __construct()
     {
         $this->builds = new ArrayCollection();
         $this->statistiques = new ArrayCollection();
+        $this->personnageNoyaux = new ArrayCollection();
     }
 
     // ... (tout le reste de vos getters et setters)
@@ -170,6 +178,33 @@ class Personnage
     public function setRole(?Role $role): static
     {
         $this->role = $role;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PersonnageNoyau>
+     */
+    public function getPersonnageNoyaux(): Collection
+    {
+        return $this->personnageNoyaux;
+    }
+
+    public function addPersonnageNoyau(PersonnageNoyau $personnageNoyau): static
+    {
+        if (!$this->personnageNoyaux->contains($personnageNoyau)) {
+            $this->personnageNoyaux->add($personnageNoyau);
+            $personnageNoyau->setPersonnage($this);
+        }
+        return $this;
+    }
+
+    public function removePersonnageNoyau(PersonnageNoyau $personnageNoyau): static
+    {
+        if ($this->personnageNoyaux->removeElement($personnageNoyau)) {
+            if ($personnageNoyau->getPersonnage() === $this) {
+                $personnageNoyau->setPersonnage(null);
+            }
+        }
         return $this;
     }
 

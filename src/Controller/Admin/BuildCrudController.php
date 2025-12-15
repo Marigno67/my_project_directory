@@ -27,7 +27,6 @@ class BuildCrudController extends AbstractCrudController
         yield TextField::new('titre');
         yield AssociationField::new('personnage');
         yield AssociationField::new('modeDeJeu');
-        
         yield AssociationField::new('equipements')
             ->setFormTypeOptions([
                 'multiple' => true,

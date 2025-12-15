@@ -15,19 +15,19 @@ class Noyau
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['noyau:read', 'build:read:details'])]
+    #[Groups(['noyau:read', 'build:read:details', 'ensembleNoyau:read', 'personnage:read:details'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['noyau:read', 'build:read:details'])]
+    #[Groups(['noyau:read', 'personnage:read:details', 'ensembleNoyau:read'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['noyau:read', 'build:read:details'])]
+    #[Groups(['noyau:read', 'personnage:read:details', 'ensembleNoyau:read'])]
     private ?string $image = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['noyau:read', 'build:read:details'])]
+    #[Groups(['noyau:read', 'personnage:read:details', 'ensembleNoyau:read'])]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'noyaux')]
@@ -36,14 +36,14 @@ class Noyau
     private ?EnsembleNoyau $ensemble = null;
 
     /**
-     * @var Collection<int, BuildNoyau>
+     * @var Collection<int, PersonnageNoyau>
      */
-    #[ORM\OneToMany(targetEntity: BuildNoyau::class, mappedBy: 'noyau', orphanRemoval: true)]
-    private Collection $buildNoyaux;
+    #[ORM\OneToMany(targetEntity: PersonnageNoyau::class, mappedBy: 'noyau', orphanRemoval: true)]
+    private Collection $personnageNoyaux;
 
     public function __construct()
     {
-        $this->buildNoyaux = new ArrayCollection();
+        $this->personnageNoyaux = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -100,28 +100,28 @@ class Noyau
     }
 
     /**
-     * @return Collection<int, BuildNoyau>
+     * @return Collection<int, PersonnageNoyau>
      */
-    public function getBuildNoyaux(): Collection
+    public function getPersonnageNoyaux(): Collection
     {
-        return $this->buildNoyaux;
+        return $this->personnageNoyaux;
     }
 
-    public function addBuildNoyau(BuildNoyau $buildNoyau): static
+    public function addPersonnageNoyau(PersonnageNoyau $personnageNoyau): static
     {
-        if (!$this->buildNoyaux->contains($buildNoyau)) {
-            $this->buildNoyaux->add($buildNoyau);
-            $buildNoyau->setNoyau($this);
+        if (!$this->personnageNoyaux->contains($personnageNoyau)) {
+            $this->personnageNoyaux->add($personnageNoyau);
+            $personnageNoyau->setNoyau($this);
         }
 
         return $this;
     }
 
-    public function removeBuildNoyau(BuildNoyau $buildNoyau): static
+    public function removePersonnageNoyau(PersonnageNoyau $personnageNoyau): static
     {
-        if ($this->buildNoyaux->removeElement($buildNoyau)) {
-            if ($buildNoyau->getNoyau() === $this) {
-                $buildNoyau->setNoyau(null);
+        if ($this->personnageNoyaux->removeElement($personnageNoyau)) {
+            if ($personnageNoyau->getNoyau() === $this) {
+                $personnageNoyau->setNoyau(null);
             }
         }
 
