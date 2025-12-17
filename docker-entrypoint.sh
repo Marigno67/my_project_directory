@@ -51,6 +51,10 @@ php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migratio
 echo "🔐 Configuration des permissions..."
 chown -R www-data:www-data var public/uploads 2>/dev/null || true
 
+# Arrêter proprement tout serveur Symfony qui pourrait être en cours
+echo "🧹 Nettoyage des anciens processus..."
+symfony server:stop 2>/dev/null || true
+
 echo "✨ Conteneur prêt !"
 echo ""
 
